@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -16,7 +19,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // Enable tomcat basic authentication
         // Disable csrf for all requests
-        http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic();
+        // Allow CORS
+        http.cors().configurationSource(request -> {
+                    CorsConfiguration cors = new CorsConfiguration();
+                    cors.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+                    cors.setAllowedMethods(Arrays.asList("GET", "PUT"));
+                    cors.setAllowedHeaders(Arrays.asList("*"));
+                    return cors;
+                }).and()
+                .csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic();
     }
 
     @Autowired
