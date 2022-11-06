@@ -42,7 +42,7 @@ class AccountControllerTest {
 
     @Test
     void call_print_statements_with_invalid_authorization_header() throws Exception {
-        this.mockMvc.perform(get("/bank-management/account/1").header("Authorization", ""))
+        this.mockMvc.perform(get("/bank-management/account/1/statements").header("Authorization", ""))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -52,7 +52,7 @@ class AccountControllerTest {
         Mockito.when(accountService.printStatements(any())).thenThrow(AccountNotFoundException.class);
 
         // Then
-        this.mockMvc.perform(get("/bank-management/account/4").header("Authorization", "Basic dXNlcjoxMjM="))
+        this.mockMvc.perform(get("/bank-management/account/4/statements").header("Authorization", "Basic dXNlcjoxMjM="))
                 .andExpect(status().isNotFound());
     }
 
@@ -72,7 +72,7 @@ class AccountControllerTest {
         Mockito.when(accountService.printStatements(any())).thenReturn(statements);
 
         // Then
-        this.mockMvc.perform(get("/bank-management/account/1").header("Authorization", "Basic dXNlcjoxMjM="))
+        this.mockMvc.perform(get("/bank-management/account/1/statements").header("Authorization", "Basic dXNlcjoxMjM="))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedContent));
     }

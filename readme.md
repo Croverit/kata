@@ -1,6 +1,6 @@
 ## printStatements example :
 ```shell
-curl --location --request GET 'http://localhost:8080/bank-management/account/1' \
+curl --location --request GET 'http://localhost:8080/bank-management/account/1/statements' \
 --header 'Authorization: Basic dXNlcjoxMjM='
 ```
 

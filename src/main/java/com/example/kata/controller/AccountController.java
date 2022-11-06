@@ -23,7 +23,7 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping("/account/{accountId}")
+    @GetMapping("/account/{accountId}/statements")
     public ResponseEntity<List<StatementDto>> printStatements(@PathVariable Long accountId) {
 
         return ResponseEntity
