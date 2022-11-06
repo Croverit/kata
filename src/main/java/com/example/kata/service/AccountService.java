@@ -29,13 +29,18 @@ public class AccountService {
 
     @Transactional
     public Account doOperation(Long accountId, BigDecimal amount, OperationType operation) {
+        // Find account by id.
         Account account = getAccount(accountId);
 
+        // Do operation
         if (OperationType.DEPOSIT.equals(operation)) {
             deposit(account, amount);
         } else {
             withdraw(account, amount);
         }
+
+        // Create Statement and add it to the list of statements
+        account.getStatements().add(new Statement(amount, new Date(), account.getBalance()));
 
         return account;
     }
@@ -43,13 +48,6 @@ public class AccountService {
     private void deposit(Account account, BigDecimal amount) {
         // Update the account balance
         account.setBalance(account.getBalance().add(amount));
-
-        // Create Statement and add it to the list of statements
-        Statement statement = new Statement();
-        statement.setAmount(amount);
-        statement.setBalance(account.getBalance());
-        statement.setDate(new Date());
-        account.getStatements().add(statement);
     }
 
     private void withdraw(Account account, BigDecimal amount) {

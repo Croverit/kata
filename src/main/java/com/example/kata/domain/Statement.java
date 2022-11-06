@@ -23,4 +23,10 @@ public class Statement {
     private Date date;
     @Column
     private BigDecimal balance;
+
+    public Statement(BigDecimal amount, Date date, BigDecimal balance) {
+        this.amount = amount;
+        this.date = date;
+        this.balance = balance;
+    }
 }
